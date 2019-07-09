@@ -10,22 +10,23 @@ let pg;
   // 2 - c
   // 3 - d
   // 4 - opacity
-  // 5 - color
-let p1 = [1,1,1,1,1,1];
-let p2 = [1,1,1,1,1,1];
-let p3 = [1,1,1,1,1,1];
+
+let p = [[1,1,1,1,1],[1,1,1,1,1],[1,1,1,1,1]];
+let colorArray = [[255,0,255], [0,255,0], [0,0,255]];
+
 function setup() {
   createCanvas(WIDTH,HEIGHT, WEBGL);
   // normalMaterial();
-  slider1 = createSlider(-500, 500, 100);
-  slider2 = createSlider(-500, 500, 0);
-  slider3 = createSlider(0, 314, 0);
+  // slider1 = createSlider(0, 50, 15);
+  // slider2 = createSlider(0, 50, 15);
+  // slider3 = createSlider(0, 10000, one*15);
   updateParameters();
   // img = loadImage('garfield.jpg');
 }
 
 
 function drawAxes(){
+// x axis
   strokeWeight(3);
   stroke(255,0,0);
   push();
@@ -35,14 +36,17 @@ function drawAxes(){
   }
   pop();
   push();
+  stroke(0);
   for (i=0; i<WIDTH/2; i+=one){
     translate(-one,0,0);
     sphere(ticksize);
   }
   pop();
+  stroke(255,0,0);
   line(-WIDTH,0,0,WIDTH,0,0);
 
-  stroke(0,255,0);
+// y axis
+  stroke(0);
   push();
   for (i=0; i<WIDTH/2; i+=one){
     translate(0,one,0);
@@ -50,11 +54,13 @@ function drawAxes(){
   }
   pop();
   push();
+  stroke(0,255,0);
   for (i=0; i<WIDTH/2; i+=one){
     translate(0,-one,0);
     sphere(ticksize);
   }
   pop();
+  stroke(0,255,0);
   line(0,-WIDTH,0,0,WIDTH,0);
 
   stroke(0,0,255);
@@ -64,103 +70,88 @@ function drawAxes(){
     sphere(ticksize);
   }
   pop();
+  stroke(0);
   push();
   for (i=0; i<WIDTH/2; i+=one){
     translate(0,0,-one);
     sphere(ticksize);
   }
   pop();
+  stroke(0,0,255);
   line(0,0,-WIDTH,0,0,WIDTH);
 
 }
 
 function updateParameters(){
-  p1[0]=math.parse(document.getElementById("p1a").value).compile().eval();
-  p1[1]=math.parse(document.getElementById("p1b").value).compile().eval();
-  p1[2]=math.parse(document.getElementById("p1c").value).compile().eval();
-  p1[3]=math.parse(document.getElementById("p1d").value).compile().eval();
-  p2[0]=math.parse(document.getElementById("p2a").value).compile().eval();
-  p2[1]=math.parse(document.getElementById("p2b").value).compile().eval();
-  p2[2]=math.parse(document.getElementById("p2c").value).compile().eval();
-  p2[3]=math.parse(document.getElementById("p2d").value).compile().eval();
-  p3[0]=math.parse(document.getElementById("p3a").value).compile().eval();
-  p3[1]=math.parse(document.getElementById("p3b").value).compile().eval();
-  p3[2]=math.parse(document.getElementById("p3c").value).compile().eval();
-  p3[3]=math.parse(document.getElementById("p3d").value).compile().eval();
+  p[0][0]=math.parse(document.getElementById("p0a").value).compile().eval();
+  p[0][1]=math.parse(document.getElementById("p0b").value).compile().eval();
+  p[0][2]=math.parse(document.getElementById("p0c").value).compile().eval();
+  p[0][3]=math.parse(document.getElementById("p0d").value).compile().eval();
+  p[1][0]=math.parse(document.getElementById("p1a").value).compile().eval();
+  p[1][1]=math.parse(document.getElementById("p1b").value).compile().eval();
+  p[1][2]=math.parse(document.getElementById("p1c").value).compile().eval();
+  p[1][3]=math.parse(document.getElementById("p1d").value).compile().eval();
+  p[2][0]=math.parse(document.getElementById("p2a").value).compile().eval();
+  p[2][1]=math.parse(document.getElementById("p2b").value).compile().eval();
+  p[2][2]=math.parse(document.getElementById("p2c").value).compile().eval();
+  p[2][3]=math.parse(document.getElementById("p2d").value).compile().eval();
 }
 
 function draw() {
-
-
   orbitControl();
   background(100,100,125);
   drawAxes();
   fill(0);
   strokeWeight(5);
   ambientLight(200,200,255);
-  ambientMaterial(0,0,0,0);
-  // specularMaterial(255,0,0);
+  specularMaterial(0,0,0,128);
+  planeSize = document.getElementById("planeSize").value;
 
 
-
-  // draw the plane p1
-  if (document.getElementById("p1show").checked){
-   var op  = math.parse(document.getElementById("p1opacity").value).compile().eval();
+// draw the three planes
+for (i=0; i<3; i++){
+  i1 = "p"+i+"show";
+  i2 = "p"+i+"opacity";
+  if (document.getElementById(i1).checked){
+    // this needs work
+    equation = "      "+p[i][0]+"x + "+p[i][1]+"y + "+p[i][2]+"z"+" = "+p[i][3];
+    document.getElementById("planetext"+i).innerHTML=equation;
+    var op  = math.parse(document.getElementById(i2).value).compile().eval();
     push();
-    if (p1[0]==0 && p1[2]==0){
+    if(p[i][0]==0 && p[i][2]==0 && p[i][1]==0){
+    }
+    else if (p[i][0]==0 && p[i][2]==0){
       rotateX(PI/2);
-      translate(0,0,one*p1[3]/p1[1]);
-      ambientMaterial(255,0,255,op);
+      translate(0,0,one*p[i][3]/p[i][1]);
+      ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
       plane(15*one,15*one,2,2);
     }
     else{
-      k = p1[3]/sqrt(p1[0]*p1[0] + p1[2]*p1[2]);
-      if(p1[2]<0) k*=-1;
-      rotateY(atan(p1[0]/p1[2]));
-      rotateY(slider3.value()/100);
+      //--------------------------------------------------------------------------
+      //--------------------------------------------------------------------------
+      //--------------------------------------------------------------------------
+      k = p[i][3]/sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]);
+      rotateY(atan(p[i][0]/p[i][2]));
+      // rotateY(frameCount/1000);
+      if (document.getElementById("debug").checked){
       translate(0,0,k*one);
-      rotateX(PI/2-atan( sqrt(p1[0]*p1[0] + p1[2]*p1[2]) / p1[1]) );
-      // rotateX(PI/2-atan(p1[3]/p1[1]/k));
-      ambientMaterial(255,0,255,op);
-      plane(15*one,15*one,2,2);
+}
+else {
+  translate(0,0,-k*one);
+
+}
+      rotateX(PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1]) );
+      // rotateX(PI/2-atan(p[i][3]/p[i][1]/k));
+      ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
+      plane(planeSize,planeSize,2,2);
+      //--------------------------------------------------------------------------
+      //--------------------------------------------------------------------------
+      //--------------------------------------------------------------------------
     }
     pop();
   }
+}
 
-  // draw the plane p2
-
-  if (document.getElementById("p2show").checked){
-    push();
-    k = p2[3]/sqrt(p2[0]*p2[0] + p2[2]*p2[2]);
-    if(p2[2]<0) k*=-1;
-    rotateY(atan(p2[0]/p2[2]));
-    rotateY(slider3.value()/100);
-    translate(0,0,k*one);
-    rotateX(PI/2-atan( sqrt(p2[0]*p2[0] + p2[2]*p2[2]) / p2[1]) );
-    ambientMaterial(0,255,0,100);
-    plane(15*one,15*one,2,2);
-    pop();
-  }
-
-
-
-
-
-
-  // draw the plane p3
-  if (document.getElementById("p3show").checked){
-    push();
-    k = p3[3]/sqrt(p3[0]*p3[0] + p3[2]*p3[2]);
-    if(p3[2]<0) k*=-1;
-    rotateY(atan(p3[0]/p3[2]));
-    rotateY(slider3.value()/100);
-    translate(0,0,k*one);
-    rotateX(PI/2-atan( sqrt(p3[0]*p3[0] + p3[2]*p3[2]) / p3[1]) );
-    // rotateX(PI/2-atan(p3[3]/p3[1]/k));
-    ambientMaterial(0,0,255,100);
-    plane(15*one,15*one,2,2);
-    pop();
-  }
 
 
 }
