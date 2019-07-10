@@ -26,7 +26,7 @@
       <td>Plane 1</td>
       <td><input type="TEXT" id="p0a" value="1" size="5"></td>
       <td><input type="TEXT" id="p0b" value="1"  size="5"></td>
-      <td><input type="TEXT" id="p0c" value="-1"  size="5"></td>
+      <td><input type="TEXT" id="p0c" value="0"  size="5"></td>
       <td><input type="TEXT" id="p0d" value="1"  size="5"></td>
       <td><input type="checkbox" id="p0show"></td>
       <td><input type="range" id="p0opacity" min=0 max=255 value=255></td>
@@ -36,10 +36,10 @@
     </tr>
     <tr>
       <td>Plane 2</td>
-      <td><input type="TEXT" id="p1a" value="3" size="5"></td>
-      <td><input type="TEXT" id="p1b" value="1"  size="5"></td>
-      <td><input type="TEXT" id="p1c" value="1"  size="5"></td>
-      <td><input type="TEXT" id="p1d" value="2"  size="5"></td>
+      <td><input type="TEXT" id="p1a" value="1" size="5"></td>
+      <td><input type="TEXT" id="p1b" value="-1"  size="5"></td>
+      <td><input type="TEXT" id="p1c" value="0"  size="5"></td>
+      <td><input type="TEXT" id="p1d" value="1"  size="5"></td>
       <td><input type="checkbox" id="p1show" ></td>
       <td><input type="range" id="p1opacity" min=0 max=255 value=100></td>
       <td>  </td>
@@ -47,14 +47,25 @@
     </tr>
     <tr>
       <td>Plane 3</td>
-      <td><input type="TEXT" id="p2a" value="2" size="5"></td>
-      <td><input type="TEXT" id="p2b" value="-1"  size="5"></td>
-      <td><input type="TEXT" id="p2c" value="4"  size="5"></td>
-      <td><input type="TEXT" id="p2d" value="-2"  size="5"></td>
+      <td><input type="TEXT" id="p2a" value="-1" size="5"></td>
+      <td><input type="TEXT" id="p2b" value="1"  size="5"></td>
+      <td><input type="TEXT" id="p2c" value="0"  size="5"></td>
+      <td><input type="TEXT" id="p2d" value="1"  size="5"></td>
       <td><input type="checkbox" id="p2show" ></td>
       <td><input type="range" id="p2opacity" min=0 max=255 value=100></td>
       <td>  </td>
       <td id="planetext2"></td>
+    </tr>
+    <tr>
+      <td>Plane 4</td>
+      <td><input type="TEXT" id="p3a" value="-1" size="5"></td>
+      <td><input type="TEXT" id="p3b" value="-1"  size="5"></td>
+      <td><input type="TEXT" id="p3c" value="0"  size="5"></td>
+      <td><input type="TEXT" id="p3d" value="1"  size="5"></td>
+      <td><input type="checkbox" id="p3show" ></td>
+      <td><input type="range" id="p3opacity" min=0 max=255 value=100></td>
+      <td>  </td>
+      <td id="planetext3"></td>
     </tr>
   </table>
   <button onclick="updateParameters()">Update</button>
