@@ -19,9 +19,9 @@ function setup() {
   //look at xy-plane
    camera(0, 0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0, 0, 0, 0,1,0);
   // look at xz-plane
-   // camera(0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0,
-   //        0, 0, 0,
-   //        0, 0 ,-1);
+  // camera(0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0,
+  //        0, 0, 0,
+  //        0, 0 ,-1);
 
 
 
@@ -51,23 +51,24 @@ function drawAxes(){
   line(-WIDTH,0,0,WIDTH,0,0);
 
   // y axis
-  stroke(0);
+  stroke(0,255,0);
   push();
   for (i=0; i<WIDTH/2; i+=one){
-    translate(0,one,0);
+    translate(0,-one,0);
     sphere(ticksize);
   }
   pop();
   push();
-  stroke(0,255,0);
+  stroke(0);
   for (i=0; i<WIDTH/2; i+=one){
-    translate(0,-one,0);
+    translate(0,one,0);
     sphere(ticksize);
   }
   pop();
   stroke(0,255,0);
   line(0,-WIDTH,0,0,WIDTH,0);
 
+  // z axis
   stroke(0,0,255);
   push();
   for (i=0; i<WIDTH/2; i+=one){
@@ -109,13 +110,15 @@ function updateParameters(){
 function draw() {
   orbitControl();
   background(100,100,125);
+  push();
+  // rotateZ(PI);
+  // rotateY(PI);
   drawAxes();
   fill(0);
   strokeWeight(5);
   ambientLight(200,200,255);
   specularMaterial(0,0,0,128);
   planeSize = document.getElementById("planeSize").value;
-
 
   // draw the three planes
   for (i=0; i<4; i++){
@@ -142,16 +145,16 @@ function draw() {
         //--------------------------------------------------------------------------
         k = p[i][3]/sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]);
         rotateY(atan(p[i][0]/p[i][2]));
-        // rotateY(frameCount/1000);
-        if (document.getElementById("debug").checked){
-          translate(0,0,k*one);
-        }
-        else {
+
+        if(p[i][2]<0 && p[i][0]>0){
           translate(0,0,-k*one);
+          rotateX(-(PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1])));
         }
-        rotateX(PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1]) );
-        // rotateX(PI/2-atan(p[i][3]/p[i][1]/k));
-        ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
+        else{
+          translate(0,0,k*one);
+          rotateX((PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1])));
+        }
+       ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
         plane(planeSize,planeSize,2,2);
         //--------------------------------------------------------------------------
         //--------------------------------------------------------------------------
@@ -161,6 +164,6 @@ function draw() {
     }
   }
 
-
+pop();
 
 }
