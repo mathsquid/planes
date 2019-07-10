@@ -17,15 +17,15 @@ let colorArray = [[255,0,255], [0,255,0], [0,0,255], [255,0,0]];
 function setup() {
   createCanvas(WIDTH,HEIGHT, WEBGL);
   //look at xy-plane
-   camera(0, 0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0, 0, 0, 0,1,0);
+  // camera(0, 0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0, 0, 0, 0,1,0);
   // look at xz-plane
-  // camera(0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0,
-  //        0, 0, 0,
-  //        0, 0 ,-1);
+  camera(0, (HEIGHT/2.0) / tan(PI*30.0 / 180.0), 0,
+         0, 0, 0,
+         0, 0 ,-1);
 
 
 
-    updateParameters();
+  updateParameters();
   // img = loadImage('garfield.jpg');
 }
 
@@ -137,7 +137,7 @@ function draw() {
         rotateX(PI/2);
         translate(0,0,one*p[i][3]/p[i][1]);
         ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
-        plane(15*one,15*one,2,2);
+        plane(planeSize,planeSize,2,2);
       }
       else{
         //--------------------------------------------------------------------------
@@ -147,6 +147,12 @@ function draw() {
         rotateY(atan(p[i][0]/p[i][2]));
 
         if(p[i][2]<0 && p[i][0]>0){
+          // console.log(1);
+          translate(0,0,-k*one);
+          rotateX(-(PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1])));
+        }
+        else if(p[i][2]<0 && p[i][0]<0){
+          // console.log(2);
           translate(0,0,-k*one);
           rotateX(-(PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1])));
         }
@@ -154,7 +160,7 @@ function draw() {
           translate(0,0,k*one);
           rotateX((PI/2-atan( sqrt(p[i][0]*p[i][0] + p[i][2]*p[i][2]) / p[i][1])));
         }
-       ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
+        ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
         plane(planeSize,planeSize,2,2);
         //--------------------------------------------------------------------------
         //--------------------------------------------------------------------------
@@ -164,6 +170,6 @@ function draw() {
     }
   }
 
-pop();
+  pop();
 
 }
