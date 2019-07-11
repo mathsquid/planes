@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="https://www.westga.edu/~cleach/graphing/planesPreview.jpg">
+  <meta property="og:url" content="https://www.westga.edu/~cleach/graphing/planes.html"
+  <title>p5.js example</title>
+  <style> body {padding: 0; margin: 0;} </style>
+  <script src="p5.min.js"></script>
+  <script src="planes.js"></script>
+  <script language="Javascript" type="text/javascript" src="https://www.westga.edu/~cleach/graphing/math.min.js">
+  </script>
+</head>
+<body>
+  <table>
+    <tr>
+      <td></td>
+      <td>a</td>
+      <td>b</td>
+      <td>c</td>
+      <td>d</td>
+      <td>visible</td>
+      <td>opacity</td>
+      <td></td>
+      <td> ax + by + cz = d </td>
+    </tr>
+    <tr>
+      <td>Plane 1</td>
+      <td><input type="TEXT" id="p0a" value="0" size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p0b" value="5"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p0c" value="-1"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p0d" value="-2"  size="5" onchange="updateParameters()"></td>
+      <td><input type="checkbox" id="p0show"></td>
+      <td><input type="range" id="p0opacity" min=0 max=255 value=255></td>
+      <td> <img src="blankspace.gif"> </td>
+      <td id="planetext0"></td>
+
+    </tr>
+    <tr>
+      <td>Plane 2</td>
+      <td><input type="TEXT" id="p1a" value="3" size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p1b" value="3"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p1c" value="3"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p1d" value="2"  size="5" onchange="updateParameters()"></td>
+      <td><input type="checkbox" id="p1show" ></td>
+      <td><input type="range" id="p1opacity" min=0 max=255 value=200></td>
+      <td>  </td>
+      <td id="planetext1"></td>
+    </tr>
+    <tr>
+      <td>Plane 3</td>
+      <td><input type="TEXT" id="p2a" value="-3" size="5 onchange="updateParameters()""></td>
+      <td><input type="TEXT" id="p2b" value="12"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p2c" value="-6"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p2d" value="-8"  size="5" onchange="updateParameters()"></td>
+      <td><input type="checkbox" id="p2show" ></td>
+      <td><input type="range" id="p2opacity" min=0 max=255 value=200></td>
+      <td>  </td>
+      <td id="planetext2"></td>
+    </tr>
+    <tr>
+      <td>Plane 4</td>
+      <td><input type="TEXT" id="p3a" value="-1" size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p3b" value="0"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p3c" value="-1"  size="5" onchange="updateParameters()"></td>
+      <td><input type="TEXT" id="p3d" value="1"  size="5" onchange="updateParameters()"></td>
+      <td><input type="checkbox" id="p3show" ></td>
+      <td><input type="range" id="p3opacity" min=0 max=255 value=200></td>
+      <td>  </td>
+      <td id="planetext3"></td>
+    </tr>
+  </table>
+
+Size of Planes:  <input type="range" id="planeSize" min=0 max=10000 value=1500>
+<HR>
+
+</body>
+</html>
