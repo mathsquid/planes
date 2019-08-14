@@ -3,6 +3,8 @@ HEIGHT=600;
 one = 100;
 ticksize=4;
 
+det = 0;
+
 let pg;
 // each p holds parameters for a Plane
 // 0 - a
@@ -88,6 +90,9 @@ function drawAxes(){
 
 }
 
+
+
+
 function updateParameters(){
   p[0][0]=math.parse(document.getElementById("p0a").value).compile().eval();
   p[0][1]=math.parse(document.getElementById("p0b").value).compile().eval();
@@ -101,10 +106,28 @@ function updateParameters(){
   p[2][1]=math.parse(document.getElementById("p2b").value).compile().eval();
   p[2][2]=math.parse(document.getElementById("p2c").value).compile().eval();
   p[2][3]=math.parse(document.getElementById("p2d").value).compile().eval();
-  p[3][0]=math.parse(document.getElementById("p3a").value).compile().eval();
-  p[3][1]=math.parse(document.getElementById("p3b").value).compile().eval();
-  p[3][2]=math.parse(document.getElementById("p3c").value).compile().eval();
-  p[3][3]=math.parse(document.getElementById("p3d").value).compile().eval();
+  // p[3][0]=math.parse(document.getElementById("p3a").value).compile().eval();
+  // p[3][1]=math.parse(document.getElementById("p3b").value).compile().eval();
+  // p[3][2]=math.parse(document.getElementById("p3c").value).compile().eval();
+  // p[3][3]=math.parse(document.getElementById("p3d").value).compile().eval();
+  det  = p[0][0]*p[1][1]*p[2][2] + p[0][1]*p[1][2]*p[2][0] +
+         p[0][2]*p[1][0]*p[2][1] - p[0][2]*p[1][1]*p[2][0] -
+         p[0][0]*p[1][2]*p[2][1] - p[0][1]*p[1][0]*p[2][2];
+
+  if (det!=0){
+    x_sol = (p[0][3]*p[1][1]*p[2][2] + p[0][1]*p[1][2]*p[2][3] +
+             p[0][2]*p[1][3]*p[2][1] - p[0][2]*p[1][1]*p[2][3] -
+             p[0][3]*p[1][2]*p[2][1] - p[0][1]*p[1][3]*p[2][2])/det;
+    y_sol = (p[0][0]*p[1][3]*p[2][2] + p[0][3]*p[1][2]*p[2][0] +
+             p[0][2]*p[1][0]*p[2][3] - p[0][2]*p[1][3]*p[2][0] -
+             p[0][0]*p[1][2]*p[2][3] - p[0][3]*p[1][0]*p[2][2])/det;
+    z_sol = (p[0][0]*p[1][1]*p[2][3] + p[0][1]*p[1][3]*p[2][0] +
+             p[0][3]*p[1][0]*p[2][1] - p[0][3]*p[1][1]*p[2][0] -
+             p[0][0]*p[1][3]*p[2][1] - p[0][1]*p[1][0]*p[2][3])/det;
+
+
+    console.log(x_sol, y_sol, z_sol);
+}
 }
 
 function draw() {
@@ -119,7 +142,7 @@ function draw() {
   planeSize = document.getElementById("planeSize").value;
 
   // draw the three planes
-  for (i=0; i<4; i++){
+  for (i=0; i<3; i++){
     i1 = "p"+i+"show";
     i2 = "p"+i+"opacity";
     if (document.getElementById(i1).checked){
@@ -137,7 +160,7 @@ function draw() {
       // 2 zeros
       else if (p[i][0]==0 && p[i][2]==0){
         // The plane y=d/b is parallel to the xy-plane
-        console.log(0);
+        // console.log(0);
         rotateX(PI/2);
         translate(0,0,one*p[i][3]/p[i][1]);
         ambientMaterial(colorArray[i][0],colorArray[i][1],colorArray[i][2],op);
@@ -186,5 +209,13 @@ function draw() {
   }
 
   pop();
+  if (det!=0 && document.getElementById("p0show").checked
+             && document.getElementById("p1show").checked
+             && document.getElementById("p2show").checked ){
+    translate(x_sol*one, -y_sol*one,z_sol*one);
+    stroke(255,255,0);
+    sphere(1+3*sin(frameCount/10));
+
+  }
 
 }
